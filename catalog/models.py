@@ -4,16 +4,16 @@ from django.urls import reverse
 # Create your models here.
 
 class Movies(models.Model):
-    name = models.Charfield(max_length = 200)
-    genre = models.Charfield(max_length = 50)
-    rating = models.Charfield(max_length = 2)
+    name = models.CharField(max_length = 200)
+    genre = models.CharField(max_length = 50)
+    rating = models.CharField(max_length = 2)
 
     def __str__(self):
         return self.name
 class Cinema(models.Model):
-    name = models.Charfield(max_length = 100)
-    city = models.Charfield(max_length = 100)
-    state = models.Charfield(max_length = 100)
+    name = models.CharField(max_length = 100)
+    city = models.CharField(max_length = 100)
+    state = models.CharField(max_length = 100)
     movies = models.ManyToManyField(Movies, help_text='Select a movie')
 
     def __str__(self):
@@ -39,7 +39,7 @@ class BookingData(models.Model):
     total_price = models.FloatField(null = False)
     show_details = models.ForeignKey(ShowTiming, on_delete=models.CASCADE())
 
-    
+
 
 
 
