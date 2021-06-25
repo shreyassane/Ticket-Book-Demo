@@ -3,18 +3,18 @@ from django.urls import reverse
 
 # Create your models here.
 
-class Movie(models.Model):
+class Movies(models.Model):
     name = models.Charfield(max_length = 200)
     genre = models.Charfield(max_length = 50)
     rating = models.Charfield(max_length = 2)
 
     def __str__(self):
-        return self.name , self.genre, self.rating
+        return self.name
 class Cinema(models.Model):
     name = models.Charfield(max_length = 100)
     city = models.Charfield(max_length = 100)
     state = models.Charfield(max_length = 100)
-    movies = models.ManyToManyField(Movie, help_text='Select a movie')
+    movies = models.ManyToManyField(Movies, help_text='Select a movie')
 
     def __str__(self):
         return self.name
@@ -23,6 +23,24 @@ class Cinema(models.Model):
         return reverse('movie-detail', args = [str(self.id)])
 
 class Auditorium(models.Model):
-    cinema = models.ForeignKey('Cinema', on_delete=models.CASCADE, null=True)
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, null=True)
     seats = models.IntegerField(max_length = 3)
+
+class ShowTiming(models.Model):
+    cinema_id = models.ForeignKey(Cinema, on_delete=models.CASCADE())
+    audi_id = models.ForeignKey(Auditorium, on_delete=models.SET_NULL())
+    movie_id = models.ForeignKey(Movies, on_delete=models.SET_NULL())
+    start_time = models.DateTimeField(null=False)
+    price = models.FloatField(null=False)
+    # seats_available =
+
+class BookingData(models.Model):
+    no_of_tkts = models.IntegerField(null = False)
+    total_price = models.FloatField(null = False)
+    show_details = models.ForeignKey(ShowTiming, on_delete=models.CASCADE())
+
+    
+
+
+
 
